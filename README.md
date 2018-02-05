@@ -1,4 +1,4 @@
-ui_sim meta package
+ui_sim
 ===================
 
 This repository contains all the ROS packages necessary to run the Under-Ice UUV
