@@ -1,5 +1,5 @@
-# underice_ekf
-This is a place holder for a ROS package underice_ekf, which provides an Extended Kalman Filter (EKF) for use in navigation beneath moving sea ice, as described in [1].
+# ui_sim
+This is a place holder for the simulation code described in [1].
 
 To be released under BSD licence.
 
