@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<launch>
+	<param name="use_sim_time" value="true" />
+	<arg name="rate" default="1"/>
+	<arg name="sim_folder" />
+	<node name="play_measurements_bag" pkg="rosbag" type="play" output="screen"
+		args="--clock --pause -r $(arg rate) /home/laughlin/Documents/JHU/projects/uiNav/sim_data/$(arg sim_folder)/bags/measurements.bag" /> 
+
+</launch>

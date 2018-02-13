@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<launch>
+
+  <env name="GAZEBO_PLUGIN_PATH" value="$(find laughlin_uw_plugins)/../../devel/lib"/>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="gui" value="true"/>
+    <arg name="world_name" value="$(find under_ice_sim_gazebo)/worlds/usbl_test.world" />
+    <arg name="verbose" value="true" />
+
+  </include>
+  
+    <!-- Load beacon -->
+    <param name="beacon_description" command="$(find xacro)/xacro --inorder '$(find under_ice_sim_gazebo)/models/usbl_beacon/usbl_beacon.xacro'" />
+
+    <!-- Spawn a beacon -->
+    <node name="spawn_beacon" pkg="gazebo_ros" type="spawn_model" args="-urdf -param beacon_description -z 0 -x 5 -y 5 -model usbl_beacon " />
+  
+    <!--sleep for a bit to allow beacon to be fully loaded -->
+    <node name="pause" pkg="under_ice_sim_gazebo" type="sleep.sh" />
+  
+    <!-- Load dunker -->
+    <param name="dunker_description" command="$(find xacro)/xacro --inorder '$(find under_ice_sim_gazebo)/models/usbl_dunker/usbl_dunker.xacro'" />
+
+    <node name="spawn_dunker" pkg="gazebo_ros" type="spawn_model" args="-urdf -param dunker_description -z 0 -x 0 -y 0 -model dunker " />
+
+</launch>

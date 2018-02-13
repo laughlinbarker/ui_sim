@@ -1,0 +1,233 @@
+<?xml version="1.0"?>
+<robot>
+
+<!-- Joint State publisher -->
+    <gazebo>
+      <plugin name="joint_state_publisher" filename="libjoint_state_publisher.so">
+        <robotNamespace>ice</robotNamespace>
+        <updateRate>500</updateRate>
+      </plugin>
+    </gazebo>
+
+<gazebo>
+  <plugin name="trajectory_forcer" filename="libtrajectory_forcer.so">
+    <robotNamespace>ice</robotNamespace>
+    <kl>1000</kl>
+    <ka>100000</ka>
+    <linkName>${namespace}/base_link</linkName>
+    <translationVector>1 1 0</translationVector>
+    <linearVelocity>0.0</linearVelocity>
+    <angularVelocity>${0/ 3600 * pi / 180}</angularVelocity> <!--  -->
+    <forcedObject>ice</forcedObject>
+  </plugin>
+</gazebo>
+
+<gazebo reference="${namespace}/base_link">
+  <turnGravityOff>true</turnGravityOff>
+  <kinematic>false</kinematic>      
+
+  <visual>
+     <material>
+    <ambient>0.5 0.8 1 1</ambient>
+      <diffuse>0.5 0.8 1 1</diffuse>
+      <specular>0.5 0.8 1 1</specular>
+      <emissive>0.5 0.8 1 1</emissive>
+     </material>
+     <transparency>0.8</transparency>
+   </visual>
+</gazebo>
+
+  <!-- Ice 3D Ground truth sensor, gazebo world coords-->
+  <gazebo>
+    <plugin name="pose_3d_plugin" filename="libgazebo_ros_p3d.so">
+      <robotNamespace>ice</robotNamespace>
+      <bodyName>${namespace}/base_link</bodyName>
+      <topicName>pose_gt</topicName>
+      <frameName>world</frameName>
+      <gaussianNoise>0.0</gaussianNoise>
+      <updateRate>75</updateRate>
+    </plugin>
+  </gazebo>
+
+    <!-- Ice 3D Ground truth sensor, NED coords-->
+  <gazebo>
+    <plugin name="pose_3d_plugin" filename="libgazebo_ros_p3d.so">
+      <robotNamespace>ice</robotNamespace>
+      <bodyName>${namespace}/sname_link</bodyName>
+      <topicName>ned_gt</topicName>
+      <frameName>world</frameName>
+      <gaussianNoise>0.0</gaussianNoise>
+      <updateRate>75</updateRate>
+    </plugin>
+  </gazebo>
+
+  <!-- Mount a 3D pose sensor on ice-->
+  <gazebo>
+    <plugin name="pose_3d_plugin" filename="libgazebo_ros_p3d.so">
+      <robotNamespace>ice</robotNamespace>
+      <bodyName>${namespace}/gpsx0</bodyName>
+      <topicName>gps0/pose_gt</topicName>
+      <frameName>world</frameName>
+      <gaussianNoise>0.0</gaussianNoise>
+      <updateRate>75</updateRate>
+    </plugin>
+  </gazebo>
+
+  <!-- GPS0 3D Ground truth sensor, NED coords-->
+  <gazebo>
+    <plugin name="pose_3d_plugin" filename="libgazebo_ros_p3d.so">
+      <robotNamespace>ice</robotNamespace>
+      <bodyName>${namespace}/gpsx0/sname_link</bodyName>
+      <topicName>gps0/sname_gt</topicName>
+      <frameName>world</frameName>
+      <gaussianNoise>0.0</gaussianNoise>
+      <updateRate>75</updateRate>
+    </plugin>
+  </gazebo>
+
+  <!-- Mount a 3D pose sensor on ship-->
+  <gazebo>
+    <plugin name="pose_3d_plugin" filename="libgazebo_ros_p3d.so">
+      <robotNamespace>ice</robotNamespace>
+      <bodyName>ice/hull</bodyName>
+      <topicName>hull/pose_gt</topicName>
+      <frameName>world</frameName>
+      <gaussianNoise>0.0</gaussianNoise>
+      <updateRate>75</updateRate>
+    </plugin>
+  </gazebo>
+  
+  <!-- SHIP 3D Ground truth sensor, NED coords-->
+  <gazebo>
+    <plugin name="pose_3d_plugin" filename="libgazebo_ros_p3d.so">
+      <robotNamespace>ice</robotNamespace>
+      <bodyName>${namespace}/hull/sname_link</bodyName>
+      <topicName>hull/sname_gt</topicName>
+      <frameName>world</frameName>
+      <gaussianNoise>0.0</gaussianNoise>
+      <updateRate>75</updateRate>
+    </plugin>
+  </gazebo>
+  
+<gazebo reference="${namespace}/hull">
+  <visual>
+     <material>
+    <ambient>1 0.921569 0.803922 1</ambient>
+      <diffuse>1 0.921569 0.803922 1</diffuse>
+      <specular>1 0.921569 0.803922 1</specular>
+      <emissive>1 0.921569 0.803922 1</emissive>
+     </material>
+     <transparency>0.7</transparency>
+   </visual>
+        
+   <turnGravityOff>true</turnGravityOff>
+   <kinematic>false</kinematic>
+        
+</gazebo>
+
+<gazebo reference="${namespace}/bridge">
+  <visual>
+     <material>
+    <ambient>0.823529 0.411765 0.117647 1</ambient>
+      <diffuse>0.823529 0.411765 0.117647 1</diffuse>
+      <specular>0.823529 0.411765 0.117647 1</specular>
+      <emissive>0.823529 0.411765 0.117647 1</emissive>
+     </material>
+     <transparency>0.7</transparency>
+   </visual>
+        
+   <turnGravityOff>true</turnGravityOff>
+   <kinematic>false</kinematic>
+        
+</gazebo>
+  
+<gazebo reference="${namespace}/ship_imu">
+  <visual>
+     <material>
+    <ambient>1 1 0 1</ambient>
+      <diffuse>1 1 0 1</diffuse>
+      <specular>1 1 0 1</specular>
+      <emissive>1 1 0 1</emissive>
+     </material>
+     <transparency>0.7</transparency>
+   </visual>
+        
+   <turnGravityOff>true</turnGravityOff>
+   <kinematic>false</kinematic>
+        
+</gazebo>
+
+<!-- PHINS IMU -->
+<gazebo>
+  <plugin name="imu_plugin" filename="libhector_gazebo_ros_imu.so">
+  <robotNamespace>ship</robotNamespace>
+  <updateRate>10.0</updateRate>
+  <bodyName>${namespace}/ship_imu</bodyName>
+  <topicName>imu</topicName>
+  <accelDrift>0.00 0.00 0.00</accelDrift>
+  <accelGaussianNoise>0.00 0.00 0.00</accelGaussianNoise>
+  <rateDrift>0.00 0.00 0.00</rateDrift>
+  <rateGaussianNoise>1.745329e-04 1.745329e-04 1.745329e-04 </rateGaussianNoise>
+  <headingDrift>0.00</headingDrift>
+  <headingGaussianNoise>0.00</headingGaussianNoise>
+  <customRPHStdDevDeg>0.01 0.01 0.9566</customRPHStdDevDeg>
+  <useNEDref>1</useNEDref>
+  </plugin>
+</gazebo>
+
+<!-- USBL sensor plugin -->
+<gazebo reference="${namespace}/usbl">
+  <sensor type="sonar" name="usbl">
+    <plugin filename="libusbl_plugin.so" name="usbl_plugin">
+      <robotNamespace>ship</robotNamespace>
+      <topicName>/ship/usbl</topicName>
+      <beaconLinkName>rexrov/rpt_link</beaconLinkName>
+      <dunkerLinkName>ice/usbl</dunkerLinkName>
+      <updateRate>${1/5}</updateRate>
+      <posAccuracy>0.002</posAccuracy>  <!--iXblue Posidonia is 0.2% slant range -->
+      <alwaysOn>true</alwaysOn>
+    </plugin>
+    </sensor>
+    
+    <visual>
+    <material>
+    <ambient>.8 0 0 1</ambient>
+      <diffuse>.8 0 0 1</diffuse>
+      <specular>.8 0 0 1</specular>
+      <emissive>.8 0 0 1</emissive>
+    </material>
+  </visual>
+
+  <turnGravityOff>true</turnGravityOff>
+  <self_collide>true</self_collide>
+  <kinematic>false</kinematic>
+</gazebo>
+
+<gazebo reference="${namespace}/ship_gps">
+  <sensor type="sonar" name="gps">
+    <plugin filename="libgps_plugin.so" name="gps_plugin">
+      <robotNamespace>ship</robotNamespace>
+      <topicName>/ship/gps</topicName>
+      <updateRate>2</updateRate> <!--Hz-->
+      <horizStdDev>0.3</horizStdDev> <!--0.25m CEP = 0.3m STD for Trimble unit-->
+      <vertStdDev>0.0</vertStdDev>
+      <hdgStdDev>0.35</hdgStdDev> <!-- Units Degrees -->
+      <velStdDev>0.06</velStdDev> <!-- Units m/s -->
+      <alwaysOn>true</alwaysOn>
+    </plugin>
+  </sensor>
+        
+  <visual>
+    <material>
+    <ambient>.8 0 0 1</ambient>
+      <diffuse>.8 0 0 1</diffuse>
+      <specular>.8 0 0 1</specular>
+      <emissive>.8 0 0 1</emissive>
+    </material>
+  </visual>
+  
+  <turnGravityOff>true</turnGravityOff>
+  <kinematic>false</kinematic>
+</gazebo>
+
+</robot>

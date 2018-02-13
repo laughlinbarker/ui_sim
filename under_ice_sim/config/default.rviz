@@ -1,0 +1,757 @@
+Panels:
+  - Class: rviz/Displays
+    Help Height: 81
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Global Options1
+        - /Status1
+        - /RobotModel1
+        - /TF1
+        - /Odometry1
+        - /Odometry1/Covariance1
+        - /Odometry1/Covariance1/Position1
+        - /Odometry2
+        - /Odometry2/Shape1
+        - /RobotModel2
+      Splitter Ratio: 0.685851336
+    Tree Height: 713
+  - Class: rviz/Selection
+    Name: Selection
+  - Class: rviz/Tool Properties
+    Expanded:
+      - /2D Pose Estimate1
+      - /2D Nav Goal1
+      - /Publish Point1
+    Name: Tool Properties
+    Splitter Ratio: 0.588679016
+  - Class: rviz/Views
+    Expanded:
+      - /Current View1
+      - /Current View1/Focal Point1
+    Name: Views
+    Splitter Ratio: 0.5
+  - Class: rviz/Time
+    Experimental: false
+    Name: Time
+    SyncMode: 0
+    SyncSource: ""
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 0.5
+      Cell Size: 1
+      Class: rviz/Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Line Style:
+        Line Width: 0.0299999993
+        Value: Lines
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 10
+      Reference Frame: <Fixed Frame>
+      Value: true
+    - Alpha: 0.600000024
+      Class: rviz/RobotModel
+      Collision Enabled: false
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        rexrov/base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rexrov/dvl_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rexrov/imu_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rexrov/pose_sensor_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rexrov/pressure_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rexrov/rpt_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rexrov/sname_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rexrov/thruster_0:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rexrov/thruster_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rexrov/thruster_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rexrov/thruster_3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rexrov/thruster_4:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rexrov/thruster_5:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rexrov/thruster_6:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rexrov/thruster_7:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+      Name: RobotModel
+      Robot Description: rexrov/robot_description
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
+    - Class: rviz/TF
+      Enabled: true
+      Frame Timeout: 15
+      Frames:
+        All Enabled: true
+        ekf_origin:
+          Value: true
+        ice/base_footprint:
+          Value: true
+        ice/base_link:
+          Value: true
+        ice/base_stabilized:
+          Value: true
+        ice/bridge:
+          Value: true
+        ice/gps0:
+          Value: true
+        ice/gps0/sname_link:
+          Value: true
+        ice/gps1:
+          Value: true
+        ice/gps10:
+          Value: true
+        ice/gps100:
+          Value: true
+        ice/gps1000:
+          Value: true
+        ice/gps15:
+          Value: true
+        ice/gps2:
+          Value: true
+        ice/gps20:
+          Value: true
+        ice/gps200:
+          Value: true
+        ice/gps25:
+          Value: true
+        ice/gps3:
+          Value: true
+        ice/gps300:
+          Value: true
+        ice/gps4:
+          Value: true
+        ice/gps400:
+          Value: true
+        ice/gps5:
+          Value: true
+        ice/gps50:
+          Value: true
+        ice/gps500:
+          Value: true
+        ice/gps600:
+          Value: true
+        ice/gps7:
+          Value: true
+        ice/gps700:
+          Value: true
+        ice/gps75:
+          Value: true
+        ice/gps800:
+          Value: true
+        ice/gps900:
+          Value: true
+        ice/hull:
+          Value: true
+        ice/hull/sname_link:
+          Value: true
+        ice/ice_pose_sensor_link:
+          Value: true
+        ice/owtt1:
+          Value: true
+        ice/owtt2:
+          Value: true
+        ice/ship_gps:
+          Value: true
+        ice/ship_imu:
+          Value: true
+        ice/sname_link:
+          Value: true
+        ice/usbl:
+          Value: true
+        ned:
+          Value: true
+        rexrov/base_footprint:
+          Value: true
+        rexrov/base_link:
+          Value: true
+        rexrov/base_stabilized:
+          Value: true
+        rexrov/dvl_link:
+          Value: true
+        rexrov/imu_link:
+          Value: true
+        rexrov/pose_sensor_link:
+          Value: true
+        rexrov/pressure_link:
+          Value: true
+        rexrov/rpt_link:
+          Value: true
+        rexrov/sname_link:
+          Value: true
+        rexrov/thruster_0:
+          Value: true
+        rexrov/thruster_1:
+          Value: true
+        rexrov/thruster_2:
+          Value: true
+        rexrov/thruster_3:
+          Value: true
+        rexrov/thruster_4:
+          Value: true
+        rexrov/thruster_5:
+          Value: true
+        rexrov/thruster_6:
+          Value: true
+        rexrov/thruster_7:
+          Value: true
+        world:
+          Value: true
+      Marker Scale: 1
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Tree:
+        world:
+          ekf_origin:
+            {}
+          ice/base_footprint:
+            ice/base_stabilized:
+              ice/base_link:
+                ice/gps0:
+                  ice/gps0/sname_link:
+                    {}
+                ice/gps1:
+                  {}
+                ice/gps10:
+                  {}
+                ice/gps100:
+                  {}
+                ice/gps1000:
+                  {}
+                ice/gps15:
+                  {}
+                ice/gps2:
+                  {}
+                ice/gps20:
+                  {}
+                ice/gps200:
+                  {}
+                ice/gps25:
+                  {}
+                ice/gps3:
+                  {}
+                ice/gps300:
+                  {}
+                ice/gps4:
+                  {}
+                ice/gps400:
+                  {}
+                ice/gps5:
+                  {}
+                ice/gps50:
+                  {}
+                ice/gps500:
+                  {}
+                ice/gps600:
+                  {}
+                ice/gps7:
+                  {}
+                ice/gps700:
+                  {}
+                ice/gps75:
+                  {}
+                ice/gps800:
+                  {}
+                ice/gps900:
+                  {}
+                ice/hull:
+                  ice/bridge:
+                    {}
+                  ice/hull/sname_link:
+                    {}
+                  ice/owtt1:
+                    {}
+                  ice/owtt2:
+                    {}
+                  ice/ship_gps:
+                    {}
+                  ice/ship_imu:
+                    {}
+                  ice/usbl:
+                    {}
+                ice/ice_pose_sensor_link:
+                  {}
+                ice/sname_link:
+                  {}
+          ned:
+            {}
+          rexrov/base_footprint:
+            rexrov/base_stabilized:
+              rexrov/base_link:
+                rexrov/dvl_link:
+                  {}
+                rexrov/imu_link:
+                  {}
+                rexrov/pose_sensor_link:
+                  {}
+                rexrov/pressure_link:
+                  {}
+                rexrov/rpt_link:
+                  {}
+                rexrov/sname_link:
+                  {}
+                rexrov/thruster_0:
+                  {}
+                rexrov/thruster_1:
+                  {}
+                rexrov/thruster_2:
+                  {}
+                rexrov/thruster_3:
+                  {}
+                rexrov/thruster_4:
+                  {}
+                rexrov/thruster_5:
+                  {}
+                rexrov/thruster_6:
+                  {}
+                rexrov/thruster_7:
+                  {}
+      Update Interval: 0
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 255; 85; 255
+      Enabled: true
+      Head Diameter: 0.300000012
+      Head Length: 0.200000003
+      Length: 0.300000012
+      Line Style: Lines
+      Line Width: 0.0299999993
+      Name: Path
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Pose Color: 255; 85; 255
+      Pose Style: None
+      Radius: 0.0299999993
+      Shaft Diameter: 0.100000001
+      Shaft Length: 0.100000001
+      Topic: /rexrov/waypoint_path_marker
+      Unreliable: false
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /rexrov/waypoint_markers
+      Name: MarkerArray
+      Namespaces:
+        "": true
+      Queue Size: 100
+      Value: true
+    - Angle Tolerance: 0.100000001
+      Class: rviz/Odometry
+      Covariance:
+        Orientation:
+          Alpha: 0.5
+          Color: 255; 255; 127
+          Color Style: Unique
+          Frame: Local
+          Offset: 1
+          Scale: 1
+          Value: true
+        Position:
+          Alpha: 0.300000012
+          Color: 204; 51; 204
+          Scale: 1
+          Value: true
+        Value: true
+      Enabled: true
+      Keep: 100
+      Name: Odometry
+      Position Tolerance: 0.100000001
+      Shape:
+        Alpha: 1
+        Axes Length: 1
+        Axes Radius: 0.100000001
+        Color: 255; 25; 0
+        Head Length: 0.300000012
+        Head Radius: 0.100000001
+        Shaft Length: 1
+        Shaft Radius: 0.0500000007
+        Value: Arrow
+      Topic: /rexrov/pose_gt
+      Unreliable: true
+      Value: true
+    - Angle Tolerance: 0.100000001
+      Class: rviz/Odometry
+      Covariance:
+        Orientation:
+          Alpha: 0.5
+          Color: 255; 255; 127
+          Color Style: Unique
+          Frame: Local
+          Offset: 1
+          Scale: 1
+          Value: true
+        Position:
+          Alpha: 0.300000012
+          Color: 204; 51; 204
+          Scale: 1
+          Value: true
+        Value: true
+      Enabled: true
+      Keep: 10
+      Name: Odometry
+      Position Tolerance: 0.100000001
+      Shape:
+        Alpha: 1
+        Axes Length: 1
+        Axes Radius: 0.100000001
+        Color: 0; 255; 0
+        Head Length: 0.300000012
+        Head Radius: 0.100000001
+        Shaft Length: 1
+        Shaft Radius: 0.0500000007
+        Value: Arrow
+      Topic: /rexrov/ekf_odom
+      Unreliable: false
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 170; 85; 255
+      Enabled: true
+      Head Diameter: 0.300000012
+      Head Length: 0.200000003
+      Length: 0.300000012
+      Line Style: Lines
+      Line Width: 0.0299999993
+      Name: Path
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Pose Color: 255; 85; 255
+      Pose Style: None
+      Radius: 0.0299999993
+      Shaft Diameter: 0.100000001
+      Shaft Length: 0.100000001
+      Topic: /rexrov/waypoint_path_marker
+      Unreliable: false
+      Value: true
+    - Alpha: 0.5
+      Class: rviz/RobotModel
+      Collision Enabled: false
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        ice/base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/bridge:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/gps0:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/gps0/sname_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/gps1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/gps10:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/gps100:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/gps1000:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/gps15:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/gps2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/gps20:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/gps200:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/gps25:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/gps3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/gps300:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/gps4:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/gps400:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/gps5:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/gps50:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/gps500:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/gps600:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/gps7:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/gps700:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/gps75:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/gps800:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/gps900:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/hull:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/hull/sname_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/ice_pose_sensor_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/owtt1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/owtt2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/ship_gps:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/ship_imu:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/sname_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ice/usbl:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+      Name: RobotModel
+      Robot Description: robot_description
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
+  Enabled: true
+  Global Options:
+    Background Color: 48; 48; 48
+    Fixed Frame: world
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz/Interact
+      Hide Inactive Objects: true
+    - Class: rviz/MoveCamera
+    - Class: rviz/Select
+    - Class: rviz/FocusCamera
+    - Class: rviz/Measure
+    - Class: rviz/SetInitialPose
+      Topic: /initialpose
+    - Class: rviz/SetGoal
+      Topic: /move_base_simple/goal
+    - Class: rviz/PublishPoint
+      Single click: true
+      Topic: /clicked_point
+  Value: true
+  Views:
+    Current:
+      Class: rviz/Orbit
+      Distance: 64.7797241
+      Enable Stereo Rendering:
+        Stereo Eye Separation: 0.0599999987
+        Stereo Focal Distance: 1
+        Swap Stereo Eyes: false
+        Value: false
+      Focal Point:
+        X: 1026.2876
+        Y: -17.5404453
+        Z: -15.3496199
+      Focal Shape Fixed Size: false
+      Focal Shape Size: 0.0500000007
+      Invert Z Axis: false
+      Name: Current View
+      Near Clip Distance: 0.00999999978
+      Pitch: 0.539795935
+      Target Frame: <Fixed Frame>
+      Value: Orbit (rviz)
+      Yaw: 3.93358064
+    Saved: ~
+Window Geometry:
+  Displays:
+    collapsed: false
+  Height: 1020
+  Hide Left Dock: false
+  Hide Right Dock: false
+  QMainWindow State: 000000ff00000000fd0000000400000000000001a30000035bfc0200000009fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006700fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c00610079007301000000430000035b000000e300fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000a0049006d00610067006501000002f4000000c90000000000000000000000010000010f0000035bfc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a0056006900650077007301000000430000035b000000b300fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000007800000003efc0100000002fb0000000800540069006d00650100000000000007800000022500fffffffb0000000800540069006d00650100000000000004500000000000000000000004c20000035b00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Selection:
+    collapsed: false
+  Time:
+    collapsed: false
+  Tool Properties:
+    collapsed: false
+  Views:
+    collapsed: false
+  Width: 1920
+  X: 0
+  Y: 0

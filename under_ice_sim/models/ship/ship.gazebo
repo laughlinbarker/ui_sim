@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<robot>
+	
+<gazebo reference="hull">
+  <visual>
+     <material>
+	 	<ambient>1 0.921569 0.803922 1</ambient>
+     	<diffuse>1 0.921569 0.803922 1</diffuse>
+     	<specular>1 0.921569 0.803922 1</specular>
+     	<emissive>1 0.921569 0.803922 1</emissive>
+     </material>
+     <transparency>0.7</transparency>
+   </visual>
+        
+   <turnGravityOff>true</turnGravityOff>
+   <kinematic>false</kinematic>
+        
+</gazebo>
+
+<gazebo reference="bridge">
+  <visual>
+     <material>
+	 	<ambient>0.823529 0.411765 0.117647 1</ambient>
+     	<diffuse>0.823529 0.411765 0.117647 1</diffuse>
+     	<specular>0.823529 0.411765 0.117647 1</specular>
+     	<emissive>0.823529 0.411765 0.117647 1</emissive>
+     </material>
+     <transparency>0.7</transparency>
+   </visual>
+        
+   <turnGravityOff>true</turnGravityOff>
+   <kinematic>false</kinematic>
+        
+</gazebo>
+	
+<gazebo reference="imu">
+  <visual>
+     <material>
+	 	<ambient>1 1 0 1</ambient>
+     	<diffuse>1 1 0 1</diffuse>
+     	<specular>1 1 0 1</specular>
+     	<emissive>1 1 0 1</emissive>
+     </material>
+     <transparency>0.7</transparency>
+   </visual>
+        
+   <turnGravityOff>true</turnGravityOff>
+   <kinematic>false</kinematic>
+        
+</gazebo>
+
+<gazebo>
+    	<plugin name="imu_plugin" filename="libhector_gazebo_ros_imu.so">
+		<robotNamespace>ship</robotNamespace>
+		<updateRate>10.0</updateRate>
+		<bodyName>imu</bodyName>
+		<topicName>imu</topicName>
+		<accelDrift>0.00 0.00 0.00</accelDrift>
+		<accelGaussianNoise>0.00 0.00 0.00</accelGaussianNoise>
+		<rateDrift>0.00 0.00 0.00</rateDrift>
+		<rateGaussianNoise>0.00 0.00 0.00 </rateGaussianNoise>
+		<headingDrift>0.00</headingDrift>
+		<headingGaussianNoise>0.00</headingGaussianNoise>
+		</plugin>
+</gazebo>
+
+<gazebo reference="usbl">
+        <sensor type="sonar" name="usbl">
+          <plugin filename="libusbl_plugin.so" name="usbl_plugin">
+            <robotNamespace>ship</robotNamespace>
+          	<topicName>/ship/usbl</topicName>
+            <beaconLinkName>usbl_beacon</beaconLinkName>
+            <updateRate>0.5</updateRate> <!--Hz-->
+          	<posAccuracy>0.002</posAccuracy>	<!--iXblue Posidonia is 0.2% slant range-->
+            <alwaysOn>true</alwaysOn>
+          </plugin>
+          </sensor>
+          
+          <visual>
+          <material>
+	        <ambient>.8 0 0 1</ambient>
+            <diffuse>.8 0 0 1</diffuse>
+            <specular>.8 0 0 1</specular>
+            <emissive>.8 0 0 1</emissive>
+          </material>
+        </visual>
+        
+        <turnGravityOff>true</turnGravityOff>
+        <self_collide>true</self_collide>
+        <kinematic>false</kinematic>
+</gazebo>
+
+<gazebo reference="ship_gps">
+
+		<sensor type="sonar" name="gps">
+          <plugin filename="libgps_plugin.so" name="gps_plugin">
+            <robotNamespace>ship</robotNamespace>
+            <topicName>/ship/gps</topicName>
+            <updateRate>1</updateRate> <!--Hz-->
+          	<horizStdDev>1</horizStdDev>	
+            <vertStdDev>5</vertStdDev>
+            <velTopicName>/ship/gps/vel</velTopicName>
+            <velStdDev>0.1</velStdDev>
+          	<alwaysOn>true</alwaysOn>
+          </plugin>
+        </sensor>
+        
+        <visual>
+          <material>
+	        <ambient>.8 0 0 1</ambient>
+            <diffuse>.8 0 0 1</diffuse>
+            <specular>.8 0 0 1</specular>
+            <emissive>.8 0 0 1</emissive>
+          </material>
+        </visual>
+        
+        <turnGravityOff>true</turnGravityOff>
+        <kinematic>false</kinematic>
+        
+</gazebo>
+
+</robot>

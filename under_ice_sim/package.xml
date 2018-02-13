@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package>
+  <name>under_ice_sim</name>
+  <version>0.1.0</version>
+  <description>Package containing the under-ice simulation components</description>
+
+  <maintainer email="laughlin@jhu.edu">Laughlin Barker</maintainer>
+
+  <license>GPLv2</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>gazebo_msgs</build_depend>
+  <build_depend>laughlin_uw_plugins</build_depend>
+  
+  <run_depend>laughlin_uw_plugins</run_depend>  <!--Laughlin's custom UW plugin package -->
+  <run_depend>uuv_sensor_plugins_ros</run_depend> <!--For UUV pressure sensor plugin-->
+  <run_depend>uuv_trajectory_control</run_depend> <!--For UUV trajectory control plugin-->
+  
+
+  <export>
+
+  </export>
+</package>

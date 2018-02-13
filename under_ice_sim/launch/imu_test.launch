@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<launch>
+
+  <env name="GAZEBO_PLUGIN_PATH" value="$(find hector_gazebo_plugins)/../../devel/lib:$GAZEBO_PLUGIN_PATH"/>
+
+	
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="gui" value="true"/>
+    <arg name="verbose" value="true" />
+
+  </include>
+  
+   	<!-- Convert a xacro and put on parameter server -->
+    <param name="imu_description" command="$(find xacro)/xacro --inorder '$(find under_ice_sim_gazebo)/models/imu/imu.xacro'" />
+
+    <!-- Spawn a robot into Gazebo -->
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -param imu_description -z 1 -x 1 -y 1 -model imu " />
+    
+  	  </launch>

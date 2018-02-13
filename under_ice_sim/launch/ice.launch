@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<launch>
+	<arg name="namespace" default="ice" />
+  <arg name="folder" />
+
+	<group ns="$(arg namespace)">
+
+	<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find under_ice_sim)/models/ice/ice.xacro' namespace:=$(arg namespace)" />
+	
+	<node name="spawn_ice" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param /$(arg namespace)/robot_description -z 0 -x 0 -y 0 -model ice " />  
+
+    <node name="ice_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen">
+      <param name="robot_description" value="/$(arg namespace)/robot_description" />
+    </node>
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find under_ice_sim)/config/default.rviz" />
+
+    </group>
+
+  <include file="$(find uuv_descriptions)/models/common/launch/message_to_tf.launch">
+    <arg name="namespace" value="$(arg namespace)"/>
+  </include>
+
+  <!-- We don't need the full 1kHz model state stream, lets only take a portion of that -->
+  <node name="gz_model_state_throttle" pkg="topic_tools" type="throttle"  args="messages /gazebo/model_states 100 /gazebo/throttled_model_states" />
+
+  <!-- node to publish ice-relative vehicle position -->
+  <include file="$(find under_ice_sim)/launch/ice_relative_odom_publisher.launch" />
+
+  <!-- node to publish tdma signals for range measurements -->
+  <node name="tdma_beacon" pkg="under_ice_sim" type="tdma_node" />
+
+  <!-- Shell script to ready folders for data -->
+  <node name="prep_folders" pkg="under_ice_sim" type="prepExpResultsFolder.sh" args="$(arg folder)" />
+
+  <!-- Static transform from world to EKF origin that is at location of GPS0 at t=0 -->
+  <node pkg="tf" type="static_transform_publisher" name="ekf_world_origin_broadcaster" args="1045 -35 0 0.707106 0.707106 0 0 world ekf_origin 50" />
+
+</launch>

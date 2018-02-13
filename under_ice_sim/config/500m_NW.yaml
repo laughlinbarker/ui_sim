@@ -1,0 +1,25 @@
+-
+  point: [1045, 0, -30]
+  max_forward_speed: 1.0
+  heading: 0
+  use_fixed_heading: False
+-
+  point: [1035, 10, -30]
+  max_forward_speed: 1.0
+  heading: 0
+  use_fixed_heading: False
+-
+  point: [945, 100, -30]
+  max_forward_speed: 1.0
+  heading: 0
+  use_fixed_heading: False
+-
+  point: [845, 200, -30]
+  max_forward_speed: 1.0
+  heading: 0
+  use_fixed_heading: False
+-
+  point: [691.4, 353.5, -30]
+  max_forward_speed: 1.0
+  heading: 0
+  use_fixed_heading: False

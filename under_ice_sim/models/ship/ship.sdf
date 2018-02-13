@@ -1,0 +1,234 @@
+<?xml version='1.0'?>
+<sdf version='1.6'>
+	
+  <model name='ship'>
+  	
+    <link name='hull'>
+      <pose frame=''>0 0 0 0 -0 0</pose>
+      <frame name="hull_f" />
+      <visual name='hull_visual'>
+        <pose frame=''>0 0 0 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>15 70 10</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0.6 1 0.5</ambient>
+          <diffuse>0 0.6 1 0.5</diffuse>
+          <specular>0 0.6 1 0.5</specular>
+          <emissive>0 0.6 1 0.5</emissive>
+        </material>
+      </visual>
+      <collision name='hull_collision'>
+        <pose frame=''>0 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>15 70 10</size>
+          </box>
+        </geometry>
+      </collision>
+      <gravity>false</gravity>
+    </link>
+    
+    <link name='bridge'>
+      <pose frame=''>0 12 10 0 -0 0</pose>
+      <gravity>0</gravity>
+      <visual name='visual'>
+        <geometry>
+          <box>
+            <size>15 10 10</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0.4 1 0.5</ambient>
+          <diffuse>0 0.4 1 0.5</diffuse>
+          <specular>0 0.4 1 0.5</specular>
+          <emissive>0 0.4 1 0.5</emissive>
+        </material>
+        <cast_shadows>1</cast_shadows>
+        <transparency>0.5</transparency>
+      </visual>
+      <collision name='collision'>
+
+        <max_contacts>10</max_contacts>
+        <pose frame=''>0 0 0 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>15 10 10</size>
+          </box>
+        </geometry>
+      </collision>
+      <gravity>false</gravity>
+    </link>
+    
+    <joint name="hull_bridge" type="fixed">
+    	<pose frame=''>0 12 10 0 -0 0</pose>
+    	<parent>hull</parent>
+    	<child>bridge</child>
+    	<frame name="hull_f" />
+    </joint>
+       
+    <link name='GPS'>
+      <pose frame=''>0 2.5 19 0 0 0</pose>
+        <visual name="visual">
+          <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.2</radius>
+              <length>0.5</length>
+            </cylinder>
+          </geometry>
+          <cast_shadows>true</cast_shadows>
+          <laser_retro>100.0</laser_retro>
+          <material>
+	        <ambient>.8 0 0 1</ambient>
+            <diffuse>.8 0 0 1</diffuse>
+            <specular>.8 0 0 1</specular>
+            <emissive>.8 0 0 1</emissive>
+          </material>
+        </visual>
+
+    	<collision name="collision">
+          <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+          <max_contacts>250</max_contacts>
+          <geometry>
+            <cylinder>
+              <radius>0.2</radius>
+              <length>0.5</length>
+            </cylinder>
+          </geometry>
+        </collision> 
+		
+        <sensor type="sonar" name="gps">
+          <plugin filename="libgps_plugin.so" name="gps_plugin">
+            <robotNamespace>ship</robotNamespace>
+          	<topicName>ship_gps</topicName>
+            <updateRate>1</updateRate> <!--Hz-->
+          	<horizStdDev>1</horizStdDev>	
+            <vertStdDev>5</vertStdDev>
+          	<alwaysOn>true</alwaysOn>
+          </plugin>
+        </sensor>
+        
+        <gravity>false</gravity>
+        <self_collide>true</self_collide>
+        <kinematic>false</kinematic>
+      </link>
+    
+    <joint name="hull_GPS" type="fixed">
+    	<pose>0 2.5 19 0 -0 0</pose>
+    	<parent>hull</parent>
+    	<child>GPS</child>
+    	<frame name="hull_GPS" />
+    </joint>
+    
+    <link name="USBL">
+        <pose>0.6 5.75 -5 0.0 0.0 0.0</pose>
+        <visual name="visual_box">
+          <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.2</radius>
+              <length>0.2</length>
+            </cylinder>
+          </geometry>
+          <cast_shadows>true</cast_shadows>
+          <laser_retro>100.0</laser_retro>
+          <material>
+	        <ambient>.8 0 0 1</ambient>
+            <diffuse>.8 0 0 1</diffuse>
+            <specular>.8 0 0 1</specular>
+            <emissive>.8 0 0 1</emissive>
+          </material>
+        </visual>
+
+    	<collision name="collision_box">
+          <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+          <max_contacts>250</max_contacts>
+          <geometry>
+            <cylinder>
+              <radius>0.2</radius>
+              <length>0.2</length>
+            </cylinder>
+          </geometry>
+        </collision> 
+		
+        <sensor type="sonar" name="usbl">
+          <plugin filename="libusbl_plugin.so" name="usbl_plugin">
+            <robotNamespace>ship</robotNamespace>
+          	<topicName>usbl</topicName>
+            <beaconLinkName>beacon</beaconLinkName>
+            <updateRate>0.5</updateRate> <!--Hz-->
+          	<posAccuracy>0.002</posAccuracy>	<!--iXblue Posidonia is 0.2% slant range-->
+            <alwaysOn>true</alwaysOn>
+          </plugin>
+          </sensor>
+        
+        <gravity>false</gravity>
+        <self_collide>true</self_collide>
+        <kinematic>false</kinematic>
+      </link>
+      
+    <joint name="hull_USBL" type="fixed">
+    	<pose>0 2.5 -5 0 -0 0</pose>
+    	<parent>hull</parent>
+    	<child>USBL</child>
+    	<frame name="hull_GPS" />
+    </joint>
+    
+
+    <link name="IMU">
+    	<pose>0 7 -5 0 0 0</pose>
+      <collision name="collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.2 0.2 0.2</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.2 0.2 0.2</size>
+          </box>
+        </geometry>
+		<material>
+          <script>
+            <name>Gazebo/Red</name>
+            <uri>__default__</uri>
+          </script>
+        </material>
+      </visual>
+      
+        <gravity>false</gravity>
+        <self_collide>true</self_collide>
+        <kinematic>false</kinematic>
+    </link>
+    
+    <joint name="hull_IMU" type="fixed">
+    	<pose>0 7 -5 0 -0 0</pose>
+    	<parent>hull</parent>
+    	<child>IMU</child>
+    	<frame name="hull_GPS" />
+    </joint>
+    
+    
+    	<plugin name="imu_plugin" filename="libhector_gazebo_ros_imu.so">
+		<robotNamespace>ship</robotNamespace>
+		<updateRate>10.0</updateRate>
+		<bodyName>IMU</bodyName>
+		<topicName>ship_imu</topicName>
+		<accelDrift>0.00 0.00 0.00</accelDrift>
+		<accelGaussianNoise>0.00 0.00 0.00</accelGaussianNoise>
+		<rateDrift>0.00 0.00 0.00</rateDrift>
+		<rateGaussianNoise>0.00 0.00 0.00 </rateGaussianNoise>
+		<headingDrift>0.00</headingDrift>
+		<headingGaussianNoise>0.00</headingGaussianNoise>
+		</plugin>
+      
+    <static>false</static>
+  </model>
+</sdf>

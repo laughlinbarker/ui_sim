@@ -1,0 +1,56 @@
+<?xml version="1.0" ?>
+<launch>
+    <arg name="gui" default="false"/>
+    <arg name="paused" default="true"/>
+    <arg name="set_timeout" default="true"/>
+    <arg name="timeout" default="100.0"/>
+    <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find under_ice_sim)/worlds/empty_underwater.world"/>
+        <arg name="paused" value="$(arg paused)"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="$(arg gui)"/>
+        <arg name="headless" value="false"/>
+        <arg name="debug" value="false"/>
+        <arg name="verbose" value="true"/>
+    </include>
+
+    <node name="publish_world_models"
+        pkg="uuv_assistants"
+        type="publish_world_models.py"
+        output="screen">
+        <rosparam subst_value="true">
+            meshes:
+                seafloor:
+                    plane: [2000, 2000, 0.1]
+                    pose:
+                        position: [0, 0, -100]
+                north:
+                    plane: [0.1, 2000, 100]
+                    pose:
+                        position: [1000, 0, -50]
+                south:
+                    plane: [0.1, 2000, 100]
+                    pose:
+                        position: [-1000, 0, -50]
+                west:
+                    plane: [2000, 0.1, 100]
+                    pose:
+                        position: [0, -1000, -50]
+                east:
+                    plane: [2000, 0.1, 100]
+                    pose:
+                        position: [0, 1000, -50]
+        </rosparam>
+    </node>
+    
+    <group if="$(arg set_timeout)">
+        <include file="$(find uuv_assistants)/launch/set_simulation_timer.launch">
+            <arg name="timeout" value="$(arg timeout)"/>
+        </include>
+    </group>
+
+    <!-- Static NED frame publisher, 100ms period (10Hz)-->
+    <node pkg="tf" type="static_transform_publisher" name="ned_broadcaster" args="0 0 0 1.57079632679 0 3.14159265359 world ned 100" />
+
+</launch>

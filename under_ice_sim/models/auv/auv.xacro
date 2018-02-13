@@ -1,0 +1,169 @@
+<?xml version='1.0'?>
+	<robot name="auv" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+		<xacro:include filename="$(find uuv_sensor_plugins_ros)/urdf/sensor_snippets.xacro"/>
+		<xacro:property name="body_length" value="3"	/> <!--X-->
+		<xacro:property name="body_width" value="0.7" /> <!--Y-->
+		<xacro:property name="body_height" value="1.8"	/> <!--Z-->
+		
+		<xacro:property name="dvl_side" value="0.2" />
+		<xacro:property name="imu_side" value="0.2" />		
+					
+		<xacro:property name="beacon_radius" value="0.05"	/>
+		<xacro:property name="beacon_length" value="0.15" />
+		
+		<!--<xacro:property name="pi" value="3.1415926" /> -->
+
+        <xacro:include filename="$(find under_ice_sim)/models/auv/auv.gazebo" />
+
+	<link name="auv_body">
+		<origin xyz="0 0 0" rpy="0 0 0" />
+		<visual>
+			<origin xyz="0 0 0" rpy="0 0 0" />
+			<geometry>
+				<box size="${body_length} ${body_width} ${body_height}" />
+			</geometry>
+			<color rgba="${255/255} ${108/255} ${10/255} 1.0"/>
+				
+		</visual>
+		
+		<collision>
+			<origin xyz="0 0 0" rpy="0 0 0" />
+			<geometry>
+				<box size="${body_length} ${body_width} ${body_height}" />
+			</geometry>			
+		</collision>
+		
+		<inertial>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<mass value="1"/>
+			<inertia
+	  			ixx="1" ixy="0.0" ixz="0.0"
+	  			iyy="1" iyz="0.0"
+	  			izz="1"/>
+    	</inertial>
+	</link>
+	
+	<link name="usbl_beacon">
+  		<collision>
+	      <origin xyz="0 0 0" rpy="0 0 0"/>
+		  <geometry>
+	        <cylinder length="${beacon_length}" radius="${beacon_radius}" />
+	      </geometry>
+	    </collision>
+	
+	    <visual>
+	      <origin xyz="0 0 0" rpy="0 0 0"/>
+		  <geometry>
+	        <cylinder length="${beacon_length}" radius="${beacon_radius}" />
+	      </geometry>
+	      <color rgba="${255/255} ${108/255} ${10/255} 1.0"/>
+	    </visual>
+	
+	    <inertial>
+	      <origin xyz="0 0 0" rpy="0 0 0"/>
+	      <mass value="1"/>
+	      <inertia
+		  	ixx="1" ixy="0.0" ixz="0.0"
+		  	iyy="1" iyz="0.0"
+		  	izz="1"/>
+	    </inertial>
+	</link>
+
+	<!--make revolute otherwise gazebo rejects joint, creates monolithic structure w/no addt'l frame -->
+	<joint name="body_usbl" type="revolute">
+		<axis xyz="0 0 1" />
+		<limit effort="0.0001" lower="0.0" upper="0.00000000001" velocity="0.00001"/>
+		<origin xyz="-${body_length/2 - beacon_radius} 0 -${body_height/2 + beacon_length/2}" rpy="0 0 0" />
+		<parent link="auv_body" />
+		<child link="usbl_beacon" />
+	</joint>
+	
+  <link name="dvl_sensor_body">
+    <!--
+  	<collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+			<box size="0.2 0.2 0.2"/>
+      </geometry>
+    </collision>
+-->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+	<box size="0.2 0.2 0.2"/>
+      </geometry>
+      <color rgba="${255/255} ${108/255} ${10/255} 1.0"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia
+	  ixx="1" ixy="0.0" ixz="0.0"
+	  iyy="1" iyz="0.0"
+	  izz="1"/>
+    </inertial>
+  </link>
+  
+  <joint name="body_dvl" type="revolute">
+  		<axis xyz="0 0 1" />
+		<limit effort="0.0001" lower="0.0" upper="0.000000000001" velocity="0.00001"/>
+		<origin xyz="0 0 -${body_height/2 + dvl_side/2}" rpy="${pi} 0 0" />
+		<parent link="auv_body" />
+		<child link="dvl_sensor_body" />
+  </joint>
+	
+  <link name="imu_sensor_body">
+    
+  	<collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+			<box size="${imu_side} ${imu_side} ${imu_side}"/>
+      </geometry>
+    </collision>
+    
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+			<box size="${imu_side} ${imu_side} ${imu_side}"/>
+      </geometry>
+      <color rgba="${255/255} ${108/255} ${10/255} 1.0"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia
+	  ixx="1" ixy="0.0" ixz="0.0"
+	  iyy="1" iyz="0.0"
+	  izz="1"/>
+    </inertial>
+  </link>
+  
+    <joint name="body_imu" type="revolute">
+  		<axis xyz="0 0 1" />
+		<limit effort="0.0001" lower="0.0" upper="0.00000000001" velocity="0.00001"/>
+		<origin xyz="0 0 0" rpy="0 0 0" />
+		<parent link="auv_body" />
+		<child link="imu_sensor_body" />
+  </joint>
+
+      <!-- Pressure  -->
+    <xacro:pressure_plugin_macro
+      namespace="auv"
+      suffix=""
+      parent_link="auv_body"
+      topic="pressure"
+      mass="0.015"
+      update_period="0.1"
+      range="30000"
+      stddev="3.0"
+      estimateDepth="true"
+      standardPressure="101.325"
+      kPaPerM="9.80638">
+      <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00001" />
+      <origin xyz="-${body_length/2} 0.15 -${body_height/2}" rpy="0 0 0"/>
+    </xacro:pressure_plugin_macro>
+  	  
+</robot>

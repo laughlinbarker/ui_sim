@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<launch>
+	<node name="ice_rel_odom" pkg="under_ice_sim" type="ice_rel_odom_publisher" respawn="true" >
+		<param name="ice_odom_topic" value="/ice/gps0/pose_gt" />
+		<param name="veh_odom_topic" value="/rexrov/pose_gt" />
+		<param name="ice_relative_odom_topic" value="/rexrov/ice_pose_gt" />
+	</node>
+</launch>

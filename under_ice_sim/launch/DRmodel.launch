@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<launch>
+
+  <env name="GAZEBO_PLUGIN_PATH" value="$(find laughlin_uw_plugins)/../../devel/lib"/>
+  <env name="GAZEBO_PLUGIN_PATH" value="$(find hector_gazebo_plugins)/../../devel/lib:$GAZEBO_PLUGIN_PATH"/>
+  
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="gui" value="true"/>
+    <arg name="world_name" value="$(find under_ice_sim)/worlds/DRmodel.world" />
+    <arg name="verbose" value="true" />
+    <arg name="paused" value="true" />
+
+  </include>
+  
+  <include file="$(find under_ice_sim)/launch/data_record.launch" />
+ 
+  <param name="auv_description" command="$(find xacro)/xacro --inorder '$(find under_ice_sim)/models/auv/auv.xacro'" />
+  <node name="spawn_auv" pkg="gazebo_ros" type="spawn_model" args="-urdf -param auv_description -z -4 -x 0 -y 0 -R 3.1415926 -model auv " />
+  
+  <!--   
+  <node name="spawn_thing" pkg="gazebo_ros" type="spawn_model" args="-file $(find under_ice_sim_gazebo)/models/ice/sml_ice.sdf -sdf -z 10 -model ice" />
+   
+  <node name="spawn_thing" pkg="gazebo_ros" type="spawn_model" args="-file $(find under_ice_sim_gazebo)/models/ice/sml_ice.sdf -sdf -z 10 -model ice" />
+
+  <node name="spawn_auv" pkg="gazebo_ros" type="spawn_model" args="-file $(find under_ice_sim_gazebo)/models/auv/auv.sdf -sdf -z -5 -model auv" />
+  	  
+  <node name="spawn_ice" pkg="gazebo_ros" type="spawn_model" args="-file $(find under_ice_sim_gazebo)/models/ice/ice.sdf -sdf -z 0 -model ice_ship" />
+  -->
+   
+</launch>

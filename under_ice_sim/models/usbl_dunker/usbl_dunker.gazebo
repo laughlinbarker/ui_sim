@@ -1,0 +1,22 @@
+<?xml version='1.0'?>
+<robot>
+	<gazebo reference="usbl_body">
+		<sensor type="sonar" name="usbl">
+          <plugin filename="libusbl_plugin.so" name="usbl_plugin">
+            <robotNamespace>ship</robotNamespace>
+          	<topicName>usbl</topicName>
+            <beaconLinkName>beacon</beaconLinkName>
+            <updateRate>0.5</updateRate>
+          	<posAccuracy>0.002</posAccuracy>
+            <alwaysOn>true</alwaysOn>
+          </plugin>
+        </sensor>
+        
+        <turnGravityOff>true</turnGravityOff>
+        <self_collide>true</self_collide>
+        <kinematic>false</kinematic>
+        
+        <material>Gazebo/Green</material>
+        
+	</gazebo>
+</robot>

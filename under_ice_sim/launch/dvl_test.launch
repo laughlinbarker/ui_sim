@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<launch>
+
+  <env name="GAZEBO_PLUGIN_PATH" value="$(find laughlin_uw_plugins)/../../devel/lib"/>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="gui" value="true"/>
+    <arg name="world_name" value="$(find under_ice_sim_gazebo)/worlds/gazebo_ros_range.world" />
+    <arg name="verbose" value="true" />
+	<arg name="paused" value="true" />    
+
+  </include>
+  
+  <!--swawn the ice sheet -->
+  <node name="spawn_ice" pkg="gazebo_ros" type="spawn_model" args="-file $(find under_ice_sim_gazebo)/models/ice/sml_ice.sdf -sdf -z 5 -model ice" />
+  <!--
+  <node name="spawn_dvl" pkg="gazebo_ros" type="spawn_model" args="-file $(find dvl_plugin)/models/dvl/dvl.sdf -sdf -z 0 -x 1 -model dvl" />
+  -->
+  
+  	<!-- Convert a xacro and put on parameter server -->
+    <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find under_ice_sim_gazebo)/models/dvl/dvl.xacro'" />
+
+    <!-- Spawn a robot into Gazebo -->
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -z 1 -x 1 -y 1 -model dvl " />
+  	
+  	
+  	<node name="spin_ice_script" pkg="under_ice_sim_gazebo" type="spin_ice.sh" />
+
+</launch>

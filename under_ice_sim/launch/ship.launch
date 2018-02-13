@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<launch>
+	
+	  <env name="GAZEBO_PLUGIN_PATH" value="$(find dvl_plugin)/../../devel/lib"/>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="gui" value="true"/>
+    <arg name="world_name" value="$(find under_ice_sim_gazebo)/worlds/model.world" />
+    <arg name="verbose" value="true" />
+    <arg name="paused" value="true" />
+
+    
+  </include>
+	
+	<node name="spawn_ship" pkg="gazebo_ros" type="spawn_model" args="-file $(find under_ice_sim_gazebo)/models/ship/ship.sdf -sdf -model ship" />
+
+</launch>

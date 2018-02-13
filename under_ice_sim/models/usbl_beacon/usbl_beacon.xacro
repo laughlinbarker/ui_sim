@@ -1,0 +1,35 @@
+<?xml version='1.0'?>
+	<robot name="usbl_beacon" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+		<xacro:property name="radius" value="0.05"	/>
+		<xacro:property name="length" value="0.15" />
+		
+        <xacro:include filename="$(find under_ice_sim_gazebo)/models/usbl_beacon/usbl_beacon.gazebo" />
+		
+  <link name="beacon">
+
+  	<collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+	  <geometry>
+        <cylinder length="${length}" radius="${radius}" />
+       </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+	  <geometry>
+        <cylinder length="${length}" radius="${radius}" />
+       </geometry>
+      <color rgba="${255/255} ${108/255} ${10/255} 1.0"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia
+	  ixx="1" ixy="0.0" ixz="0.0"
+	  iyy="1" iyz="0.0"
+	  izz="1"/>
+    </inertial>
+    
+  </link>
+</robot>

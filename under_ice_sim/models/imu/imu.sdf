@@ -1,0 +1,63 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+    
+  <model name="IMU">
+  	<pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+    <link name="imu_body">
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>10</mass>
+        <inertia>
+          <ixx>1.67</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1.67</iyy>
+          <iyz>0</iyz>
+          <izz>1.67</izz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.2 0.2 0.2</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.2 0.2 0.2</size>
+          </box>
+        </geometry>
+	<material>
+          <script>
+            <name>Gazebo/Red</name>
+            <uri>__default__</uri>
+          </script>
+        </material>
+      </visual>
+      
+        <gravity>false</gravity>
+        <self_collide>true</self_collide>
+        <kinematic>false</kinematic>
+        
+    </link>
+    
+    	<plugin name="imu_plugin" filename="libhector_gazebo_ros_imu.so">
+		<robotNamespace>/</robotNamespace>
+		<updateRate>10.0</updateRate>
+		<bodyName>imu_body</bodyName>
+		<topicName>imu</topicName>
+		<accelDrift>0.00 0.00 0.00</accelDrift>
+		<accelGaussianNoise>0.00 0.00 0.00</accelGaussianNoise>
+		<rateDrift>0.00 0.00 0.00</rateDrift>
+		<rateGaussianNoise>0.00 0.00 0.00 </rateGaussianNoise>
+		<headingDrift>0.00</headingDrift>
+		<headingGaussianNoise>0.00</headingGaussianNoise>
+		</plugin>
+    
+    </model>
+    
+</sdf>

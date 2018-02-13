@@ -1,0 +1,70 @@
+-
+  point: [1045, 0, -10]
+  max_forward_speed: 1.0
+  heading: 0
+  use_fixed_heading: False
+-
+  point: [945, 0, -10]
+  max_forward_speed: 1.0
+  heading: 0
+  use_fixed_heading: False
+-
+  point: [945, 10, -10]
+  max_forward_speed: 1.0
+  heading: 0
+  use_fixed_heading: False
+-
+  point: [1045, 10, -10]
+  max_forward_speed: 1.0
+  heading: 0
+  use_fixed_heading: False
+-
+  point: [1045, 20, -10]
+  max_forward_speed: 1.0
+  heading: 0
+  use_fixed_heading: False
+-
+  point: [945, 20, -10]
+  max_forward_speed: 1.0
+  heading: 0
+  use_fixed_heading: False
+-
+  point: [945, 30, -10]
+  max_forward_speed: 1.0
+  heading: 0
+  use_fixed_heading: False
+-
+  point: [1045, 30, -10]
+  max_forward_speed: 1.0
+  heading: 0
+  use_fixed_heading: False
+-
+  point: [1045, 40, -10]
+  max_forward_speed: 1.0
+  heading: 0
+  use_fixed_heading: False
+-
+  point: [945, 40, -10]
+  max_forward_speed: 1.0
+  heading: 0
+  use_fixed_heading: False
+-
+  point: [945, 50, -10]
+  max_forward_speed: 1.0
+  heading: 0
+  use_fixed_heading: False
+-
+  point: [1045, 50, -10]
+  max_forward_speed: 1.0
+  heading: 0
+  use_fixed_heading: False
+-
+  point: [1045, 60, -10]
+  max_forward_speed: 1.0
+  heading: 0
+  use_fixed_heading: False
+-
+  point: [945, 60, -10]
+  max_forward_speed: 1.0
+  heading: 0
+  use_fixed_heading: False

@@ -1,0 +1,91 @@
+<sdf version="1.6">
+    <model name="USBL_Dunker">
+      <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+      <link name="link_1">
+        <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+        <visual name="visual_box">
+          <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.2</radius>
+              <length>0.5</length>
+            </cylinder>
+          </geometry>
+          <cast_shadows>true</cast_shadows>
+          <laser_retro>100.0</laser_retro>
+          <material>
+	        <ambient>.8 0 0 1</ambient>
+            <diffuse>.8 0 0 1</diffuse>
+            <specular>.8 0 0 1</specular>
+            <emissive>.8 0 0 1</emissive>
+          </material>
+        </visual>
+
+    	<collision name="collision_box">
+          <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+          <max_contacts>250</max_contacts>
+          <geometry>
+            <cylinder>
+              <radius>0.2</radius>
+              <length>0.5</length>
+            </cylinder>
+          </geometry>
+        </collision> 
+		
+        <sensor type="sonar" name="usbl">
+          <plugin filename="libusbl_plugin.so" name="usbl_plugin">
+            <robotNamespace>ship</robotNamespace>
+          	<topicName>usbl</topicName>
+            <beaconLinkName>beacon</beaconLinkName>
+            <updateRate>0.5</updateRate> <!--Hz-->
+          	<posAccuracy>0.002</posAccuracy>	<!--iXblue Posidonia is 0.2% slant range-->
+            <alwaysOn>true</alwaysOn>
+          </plugin>
+          </sensor>
+        
+        <gravity>false</gravity>
+        <self_collide>true</self_collide>
+        <kinematic>false</kinematic>
+      </link>
+      <static>false</static>
+    </model>
+    
+    <model name="USBL_Beacon">
+      <pose>-2.0 2.0 2.0 0.0 0.0 0.0</pose>
+      <link name="beacon">
+        <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+        <visual name="visual_box">
+          <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.15</length>
+            </cylinder>
+          </geometry>
+          <cast_shadows>true</cast_shadows>
+          <laser_retro>100.0</laser_retro>
+          <material>
+	        <ambient>.8 0 0 1</ambient>
+            <diffuse>.8 0 0 1</diffuse>
+            <specular>.8 0 0 1</specular>
+            <emissive>.8 0 0 1</emissive>
+          </material>
+        </visual>
+
+    	<collision name="collision_box">
+          <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.15</length>
+            </cylinder>
+          </geometry>
+        </collision> 
+        <gravity>false</gravity>
+        <self_collide>true</self_collide>
+        <kinematic>false</kinematic>
+      </link>
+      <static>false</static>
+    </model>
+
+</sdf>

@@ -1,0 +1,24 @@
+<?xml version='1.0'?>
+<robot>
+	<gazebo reference="gps1">
+		<sensor type="sonar" name="gps">
+          <plugin filename="libgps_plugin.so" name="gps_plugin">
+            <robotNamespace>ship</robotNamespace>
+          	<topicName>gps</topicName>
+            <updateRate>1</updateRate> <!--Hz-->
+          	<horizStdDev>1</horizStdDev>	
+            <vertStdDev>5</vertStdDev>
+            <velTopicName>gps/vel</velTopicName>
+            <velStdDev>0.1</velStdDev>
+          	<alwaysOn>true</alwaysOn>
+          </plugin>
+        </sensor>
+        
+        <turnGravityOff>true</turnGravityOff>
+        <self_collide>true</self_collide>
+        <kinematic>false</kinematic>
+        
+        <material>Gazebo/Green</material>
+        
+	</gazebo>
+</robot>

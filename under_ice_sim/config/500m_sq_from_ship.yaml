@@ -1,0 +1,50 @@
+# -
+#   point: [1045.0, 0.0, -20.0]
+#   max_forward_speed: 1.0
+#   heading: 0.0
+#   use_fixed_heading: False
+# -
+#   point: [545.0, 0.0, -20.0]
+#   max_forward_speed: 1.0
+#   heading: 0.0
+#   use_fixed_heading: False
+# -
+#   point: [545.0, 500.0, -20.0]
+#   max_forward_speed: 1.0
+#   heading: 0.0
+#   use_fixed_heading: False
+# -
+#   point: [1045.0, 500.0, -20.0]
+#   max_forward_speed: 1.0
+#   heading: 0.0
+#   use_fixed_heading: False
+#   -
+#   point: [1045.0, 0.0, -20.0]
+#   max_forward_speed: 1.0
+#   heading: 0.0
+#   use_fixed_heading: False
+-
+  point: [1045, 0, -20]
+  max_forward_speed: 1.0
+  heading: 0
+  use_fixed_heading: False
+-
+  point: [545, 0, -20]
+  max_forward_speed: 1.0
+  heading: 0
+  use_fixed_heading: False
+-
+  point: [545, 500, -20]
+  max_forward_speed: 1.0
+  heading: 0
+  use_fixed_heading: False
+-
+  point: [1045, 500, -20]
+  max_forward_speed: 1.0
+  heading: 0
+  use_fixed_heading: False
+-
+  point: [1045, 0, -20]
+  max_forward_speed: 1.0
+  heading: 0
+  use_fixed_heading: False

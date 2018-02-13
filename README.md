@@ -4,11 +4,11 @@ ui_sim
 This repository contains all the ROS packages necessary to run the Under-Ice UUV
 simulation in Gazebo, as described in [1].
 
-**Disclaimer:** this is research-grade code! While the mathematical concepts employed are (hopefully!) sound, the implenetation includes more hacks than is ideal. I further acknowledge that it is poor practice to bundle multiple discrete (and maintained!) software packages into a single repository, but as I'm currently short on time, I thought it more prudent to simply publish early! In the event I have the bandwidth (and perhaps interest from others), I will work to disentangle things.
+**Disclaimer:** this is research-grade code! While the mathematical concepts employed are (hopefully!) sound, the implenetation may be a bit hacky. Additionally, this git repository contains multiple ROS packages, as well as the source files for GeographicLib (1.48). I acknowledge it's not a good practice to package multiple and unrelated discrete projects in a single repo, but it's the quickest way to allow others to get up and running. 
 
 #### Discrete ROS packages contained in this repository:
-- uuv_simulator (meta package)
-- hector_gazebo
+- uuv_simulator (Source: [UUV Simulator](https://github.com/uuvsimulator/uuv_simulator)
+- hector_gazebo (Source: [Hector Simulator](https://github.com/tu-darmstadt-ros-pkg/hector_gazebo)
 - laughlin_uw_plugins
 - tdma_broadcaster
 - under_ice_sim
@@ -36,14 +36,6 @@ make
 sudo make install
 ```
 ## Build and run
-
-My package deps are not clean yet, so build my plugin package first
-```
-roscd 
-cd ..
-catkin_make --pkg laughlin_uw_plugins
-catkin_make
-```
 
 ### Define a few paths 
 

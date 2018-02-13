@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<launch>
+	<arg name="use_sim_time" value="true"/>
+	<arg name="folder" default="tmp"/>
+
+	<node pkg="rosbag" type="record" name="ekf_measurement_record"
+		args="--output-name /home/laughlin/Documents/JHU/projects/uiNav/sim_data/$(arg folder)/bags/measurements.bag 
+		-e '/ice/gps(.*)' '/ship/owtt(.*)' -x /ice/gps0/sname_gt
+		/rexrov/imu /rexrov/dvl /rexrov/pressure 
+		/ice/imu
+		/ship/gps /ship/imu /ship/usbl
+		/clock" />
+
+	<node pkg="rosbag" type="record" name="ekf_gt_record"
+		args="--output-name /home/laughlin/Documents/JHU/projects/uiNav/sim_data/$(arg folder)/bags/gt.bag
+		/rexrov/pose_gt /rexrov/ice_pose_gt /rexrov/sname_gt
+		/ice/pose_gt /ice/gps0/pose_gt /ice/hull/pose_gt /ice/sname_gt /ice/gps0/sname_gt /ice/hull/sname_gt" />
+
+	<node pkg="rosbag" type="record" name="ekf_tf_record"
+		args="--output-name /home/laughlin/Documents/JHU/projects/uiNav/sim_data/$(arg folder)/bags/tf.bag
+		 /tf /tf_static" />
+
+	<!-- Shutdown all the nodes and stop recording when the dp_controller finishes 
+	<node pkg="under_ice_sim" type="simulationKiller.py" name="sim_killer" output="screen" />
+		-->
+</launch>

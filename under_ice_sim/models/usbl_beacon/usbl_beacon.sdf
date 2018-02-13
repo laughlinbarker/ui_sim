@@ -1,0 +1,40 @@
+<sdf version="1.6">    
+    <model name="USBL_Beacon">
+      <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+      <link name="beacon">
+        <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+        <visual name="visual_box">
+          <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.15</length>
+            </cylinder>
+          </geometry>
+          <cast_shadows>true</cast_shadows>
+          <laser_retro>100.0</laser_retro>
+          <material>
+	        <ambient>1 1 0 1</ambient>
+            <diffuse>1 1 0 1</diffuse>
+            <specular>1 1 0 1</specular>
+            <emissive>1 1 0 1</emissive>
+          </material>
+        </visual>
+
+    	<collision name="collision_box">
+          <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.15</length>
+            </cylinder>
+          </geometry>
+        </collision> 
+        <gravity>false</gravity>
+        <self_collide>true</self_collide>
+        <kinematic>false</kinematic>
+      </link>
+      <static>false</static>
+    </model>
+
+</sdf>

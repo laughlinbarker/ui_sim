@@ -1,0 +1,11 @@
+<?xml version='1.0'?>
+<robot>
+	<gazebo reference="beacon">        
+        <turnGravityOff>true</turnGravityOff>
+        <self_collide>true</self_collide>
+        <kinematic>false</kinematic>
+        
+        <material>Gazebo/Green</material>
+        
+	</gazebo>
+</robot>

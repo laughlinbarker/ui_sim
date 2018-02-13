@@ -1,0 +1,407 @@
+<?xml version='1.0'?>
+<robot name="ice" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:property name="namespace" value="ice"/>
+  <xacro:property name="length" value="2100"/>  <!--X-->
+  <xacro:property name="width" value="2100"/>  <!--Y-->
+  <xacro:property name="height" value="2"/>  <!--Z-->
+  <xacro:property name="beam" value="15"/>
+  <xacro:property name="ship_length" value="70"/>
+  <xacro:property name="ship_height" value="15"/>
+  <xacro:property name="bridge_x" value="15"/>
+  <xacro:property name="bridge_y" value="10"/>
+  <xacro:property name="bridge_z" value="10"/>
+  <xacro:property name="usbl_r" value="0.2"/>
+  <xacro:property name="usbl_l" value="0.2"/>
+  <xacro:property name="gps_side" value="0.2"/>
+  <xacro:property name="imu_side" value="0.2"/>
+  <xacro:property name="gps_yaw" value="${pi/2}"/>
+
+  <xacro:include filename="$(find under_ice_sim)/models/ice/ice.gazebo"/>
+  <xacro:include filename="$(find uuv_descriptions)/models/common/urdf/common.urdf.xacro"/>
+
+  <xacro:macro name="gps_macro" params="namespace gps_num x y yaw">
+    <link name="${namespace}/gps${gps_num}">
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <box size="0.2 0.2 0.2"/>
+        </geometry>
+      </collision>
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <box size="0.2 0.2 0.2"/>
+        </geometry>
+        <material name="green">
+          <color rgba="0 1 0 0.5"/>
+        </material>
+      </visual>
+      <inertial>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <mass value="0.00001"/>
+        <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00001"/>
+      </inertial>
+    </link>
+    <joint name="${namespace}/ice_gps${gps_num}" type="revolute">
+      <limit effort="0" lower="0" upper="0" velocity="0"/>
+      <axis xyz="0 0 1"/>
+      <origin rpy="0 0 ${yaw}" xyz="${x} ${y} ${2/2 + 0.2/2}"/>
+      <parent link="${namespace}/base_link"/>
+      <child link="${namespace}/gps${gps_num}"/>
+    </joint>
+    <gazebo reference="${namespace}/gps${gps_num}">
+      <sensor name="gps${gps_num}" type="sonar">
+        <plugin filename="libgps_plugin.so" name="gps_plugin${gps_num}">
+          <robotNamespace>ice</robotNamespace>
+          <topicName>/ice/gps${gps_num}</topicName>
+          <updateRate>1</updateRate>
+          <!--Hz-->
+          <horizStdDev>3</horizStdDev>
+          <!-- m -->
+          <vertStdDev>0.0</vertStdDev>
+          <hdgStdDev>0.35</hdgStdDev>
+          <!-- Degrees -->
+          <velStdDev>0.06</velStdDev>
+          <!-- m/s -->
+          <alwaysOn>true</alwaysOn>
+        </plugin>
+      </sensor>
+      <turnGravityOff>true</turnGravityOff>
+      <kinematic>false</kinematic>
+      <material>Gazebo/Green</material>
+    </gazebo>
+  </xacro:macro>
+
+  <xacro:macro name="owtt_macro" params="namespace range_topic tdma_cycle_num x y z">
+    <!-- Link for range sensor near bow of boat -->
+    <link name="${namespace}/${range_topic}">
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <cylinder length="0.1" radius="0.05"/>
+        </geometry>
+      </collision>
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <cylinder length="0.1" radius="0.05"/>
+        </geometry>
+      </visual>
+      <inertial>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <mass value="0.00001"/>
+        <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00001"/>
+      </inertial>
+    </link>
+    <joint name="${namespace}/${range_topic}_joint" type="revolute">
+      <limit effort="0" lower="0" upper="0" velocity="0"/>
+      <axis xyz="0 0 1"/>
+      <!-- Put OWTT1 'ducer on stbd side, 25 m forward of center, 5 m below hull -->
+      <!-- <origin xyz="25 ${-beam/2} ${-ship_height/2 - 5}" rpy="0 0 0" />-->
+      <origin rpy="0 0 0" xyz="${x} ${y} ${z}"/>
+      <parent link="${namespace}/hull"/>
+      <child link="${namespace}/${range_topic}"/>
+    </joint>
+    <gazebo reference="${namespace}/${range_topic}">
+      <sensor name="${range_topic}" type="sonar">
+        <plugin filename="libowtt_plugin.so" name="${range_topic}_plugin">
+          <robotNamespace>ship</robotNamespace>
+          <topicName>/ship/${range_topic}</topicName>
+          <tdmaTopic>/tdma</tdmaTopic>
+          <beaconNum>${tdma_cycle_num}</beaconNum>
+          <beaconLinkName>rexrov/rpt_link</beaconLinkName>
+          <dunkerLinkName>ice/${range_topic}</dunkerLinkName>
+          <rangeAccuracy>0.002</rangeAccuracy>
+          <!-- assume range STD is 0.2% slant range like IXSEA posidonia -->
+          <!-- <rangeAccuracy>0.0</rangeAccuracy>-->
+          <alwaysOn>true</alwaysOn>
+        </plugin>
+      </sensor>
+      <visual>
+        <material>
+          <ambient>.8 0 0 1</ambient>
+          <diffuse>.8 0 0 1</diffuse>
+          <specular>.8 0 0 1</specular>
+          <emissive>.8 0 0 1</emissive>
+        </material>
+      </visual>
+      <turnGravityOff>true</turnGravityOff>
+      <self_collide>true</self_collide>
+      <kinematic>false</kinematic>
+    </gazebo>
+  </xacro:macro>
+
+  <link name="${namespace}/base_link">
+    <visual>
+      <geometry>
+        <box size="${length} ${width} ${height}"/>
+      </geometry>
+      <material name="white">
+        <color rgba="0.1 0.1 0.1 0.5"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="${length} ${width} ${height}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1000"/>
+      <inertia ixx="1000" ixy="0" ixz="0" iyy="1000" iyz="0" izz="1000"/>
+    </inertial>
+  </link>
+  <xacro:gps_macro gps_num="x0" namespace="${namespace}" x="1045" y="${-35 + 0}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="x1" namespace="${namespace}" x="1045" y="${-35 + 1}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="x2" namespace="${namespace}" x="1045" y="${-35 + 2}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="x3" namespace="${namespace}" x="1045" y="${-35 + 3}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="x4" namespace="${namespace}" x="1045" y="${-35 + 4}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="x5" namespace="${namespace}" x="1045" y="${-35 + 5}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="x7" namespace="${namespace}" x="1045" y="${-35 + 7}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="x10" namespace="${namespace}" x="1045" y="${-35 + 10}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="x20" namespace="${namespace}" x="1045" y="${-35 + 20}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="x40" namespace="${namespace}" x="1045" y="${-35 + 40}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="x60" namespace="${namespace}" x="1045" y="${-35 + 60}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="x80" namespace="${namespace}" x="1045" y="${-35 + 80}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="x100" namespace="${namespace}" x="1045" y="${-35 + 100}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="x200" namespace="${namespace}" x="1045" y="${-35 + 200}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="x300" namespace="${namespace}" x="1045" y="${-35 + 300}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="x400" namespace="${namespace}" x="1045" y="${-35 + 400}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="x500" namespace="${namespace}" x="1045" y="${-35 + 500}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="x600" namespace="${namespace}" x="1045" y="${-35 + 600}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="x700" namespace="${namespace}" x="1045" y="${-35 + 700}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="x800" namespace="${namespace}" x="1045" y="${-35 + 800}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="x900" namespace="${namespace}" x="1045" y="${-35 + 900}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="x1000" namespace="${namespace}" x="1045" y="${-35 + 1000}" yaw="${gps_yaw}"/>
+  <!-- GPS Units that lie on ice y-axis -->
+  <xacro:gps_macro gps_num="y5" namespace="${namespace}" x="${1045 - 5}" y="${-35 + 0}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="y10" namespace="${namespace}" x="${1045 - 10}" y="${-35 + 0}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="y20" namespace="${namespace}" x="${1045 - 20}" y="${-35 + 0}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="y40" namespace="${namespace}" x="${1045 - 40}" y="${-35 + 0}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="y60" namespace="${namespace}" x="${1045 - 60}" y="${-35 + 0}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="y80" namespace="${namespace}" x="${1045 - 80}" y="${-35 + 0}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="y100" namespace="${namespace}" x="${1045 - 100}" y="${-35 + 0}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="y200" namespace="${namespace}" x="${1045 - 200}" y="${-35 + 0}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="y300" namespace="${namespace}" x="${1045 - 300}" y="${-35 + 0}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="y400" namespace="${namespace}" x="${1045 - 400}" y="${-35 + 0}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="y500" namespace="${namespace}" x="${1045 - 500}" y="${-35 + 0}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="y600" namespace="${namespace}" x="${1045 - 600}" y="${-35 + 0}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="y700" namespace="${namespace}" x="${1045 - 700}" y="${-35 + 0}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="y800" namespace="${namespace}" x="${1045 - 800}" y="${-35 + 0}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="y900" namespace="${namespace}" x="${1045 - 900}" y="${-35 + 0}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="y1000" namespace="${namespace}" x="${1045 - 1000}" y="${-35 + 0}" yaw="${gps_yaw}"/>
+  <!-- GPS Units that complete the square -->
+  <xacro:gps_macro gps_num="xy5" namespace="${namespace}" x="${1045 - 5}" y="${-35 + 5}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="xy10" namespace="${namespace}" x="${1045 - 10}" y="${-35 + 10}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="xy20" namespace="${namespace}" x="${1045 - 20}" y="${-35 + 20}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="xy40" namespace="${namespace}" x="${1045 - 40}" y="${-35 + 40}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="xy60" namespace="${namespace}" x="${1045 - 60}" y="${-35 + 60}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="xy80" namespace="${namespace}" x="${1045 - 80}" y="${-35 + 80}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="xy100" namespace="${namespace}" x="${1045 - 100}" y="${-35 + 100}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="xy200" namespace="${namespace}" x="${1045 - 200}" y="${-35 + 200}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="xy300" namespace="${namespace}" x="${1045 - 300}" y="${-35 + 300}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="xy400" namespace="${namespace}" x="${1045 - 400}" y="${-35 + 400}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="xy500" namespace="${namespace}" x="${1045 - 500}" y="${-35 + 500}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="xy600" namespace="${namespace}" x="${1045 - 600}" y="${-35 + 600}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="xy700" namespace="${namespace}" x="${1045 - 700}" y="${-35 + 700}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="xy800" namespace="${namespace}" x="${1045 - 800}" y="${-35 + 800}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="xy900" namespace="${namespace}" x="${1045 - 900}" y="${-35 + 900}" yaw="${gps_yaw}"/>
+  <xacro:gps_macro gps_num="xy1000" namespace="${namespace}" x="${1045 - 1000}" y="${-35 + 1000}" yaw="${gps_yaw}"/>
+
+  <!--================SHIP=================-->
+  <link name="${namespace}/hull">
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="${ship_length} ${beam} ${ship_height}"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="${ship_length} ${beam} ${ship_height}"/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0 0 0.7 0.5"/>
+      </material>
+    </visual>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.00001"/>
+      <inertia ixx="0.000001" ixy="0.0" ixz="0.0" iyy="0.000001" iyz="0.0" izz="0.000001"/>
+    </inertial>
+  </link>
+
+  <joint name="${namespace}/ice_hull" type="revolute">
+    <limit effort="0" lower="0" upper="0" velocity="0"/>
+    <axis xyz="0 0 1"/>
+    <origin rpy="0 0 ${pi/2}" xyz="${length/2+beam/2} 0 0"/>
+    <parent link="${namespace}/base_link"/>
+    <child link="${namespace}/hull"/>
+  </joint>
+
+  <link name="${namespace}/bridge">
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="${bridge_x} ${bridge_y} ${bridge_z}"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="${bridge_x} ${bridge_y} ${bridge_z}"/>
+      </geometry>
+      <material name="brown">
+        <color rgba="0.7 0.7 0 1"/>
+      </material>
+    </visual>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.00001"/>
+      <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00001"/>
+    </inertial>
+  </link>
+
+  <joint name="${namespace}/hull_bridge" type="revolute">
+    <limit effort="0" lower="0" upper="0" velocity="0"/>
+    <axis xyz="0 0 1"/>
+    <origin rpy="0 0 0" xyz="${ship_length/3} 0 ${ship_height/2 + bridge_z/2}"/>
+    <parent link="${namespace}/hull"/>
+    <child link="${namespace}/bridge"/>
+  </joint>
+
+  <link name="${namespace}/ship_gps">
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="${gps_side} ${gps_side} ${gps_side}"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="${gps_side} ${gps_side} ${gps_side}"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.00001"/>
+      <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00001"/>
+    </inertial>
+  </link>
+
+  <joint name="${namespace}/hull_gps" type="revolute">
+    <limit effort="0" lower="0" upper="0" velocity="0"/>
+    <axis xyz="0 0 1"/>
+    <origin rpy="0 0 0" xyz="0 2.5 19"/>
+    <parent link="${namespace}/hull"/>
+    <child link="${namespace}/ship_gps"/>
+  </joint>
+
+  <!-- USBL System on ship -->
+  <link name="${namespace}/usbl">
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="${usbl_r}" radius="${usbl_l}"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="${usbl_r}" radius="${usbl_l}"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.00001"/>
+      <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00001"/>
+    </inertial>
+  </link>
+
+  <joint name="${namespace}/hull_usbl" type="revolute">
+    <limit effort="0" lower="0" upper="0" velocity="0"/>
+    <axis xyz="0 0 1"/>
+    <origin rpy="0 0 0" xyz="0.6 5.75 -5"/>
+    <parent link="${namespace}/hull"/>
+    <child link="${namespace}/usbl"/>
+  </joint>
+
+  <xacro:owtt_macro namespace="${namespace}" range_topic="owtt0m" tdma_cycle_num="1" x="-25" y="0" z="0" />
+
+
+  <xacro:owtt_macro namespace="${namespace}" range_topic="owtt20m" tdma_cycle_num="2" x="${-25 + 20}" y="0" z="0" />
+  <xacro:owtt_macro namespace="${namespace}" range_topic="owtt40m" tdma_cycle_num="2" x="${-25 + 40}" y="0" z="0" />
+  <xacro:owtt_macro namespace="${namespace}" range_topic="owtt60m" tdma_cycle_num="2" x="${-25 + 60}" y="0" z="0" />
+  <xacro:owtt_macro namespace="${namespace}" range_topic="owtt80m" tdma_cycle_num="2" x="${-25 + 80}" y="0" z="0" />
+  <xacro:owtt_macro namespace="${namespace}" range_topic="owtt100m" tdma_cycle_num="2" x="${-25 + 100}" y="0" z="0" />
+
+  <link name="${namespace}/ship_imu">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="${imu_side} ${imu_side} ${imu_side}"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.00001"/>
+      <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00001"/>
+    </inertial>
+  </link>
+  <joint name="${namespace}/hull_imu" type="revolute">
+    <limit effort="0" lower="0" upper="0" velocity="0"/>
+    <axis xyz="0 0 1"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="${namespace}/hull"/>
+    <child link="${namespace}/ship_imu"/>
+  </joint>
+  <!-- Mount a 3D pose sensor on ice-->
+  <link name="${namespace}/ice_pose_sensor_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.0001"/>
+      <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00001"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="${namespace}/ice_pose_sensor_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <parent link="${namespace}/base_link"/>
+    <child link="${namespace}/ice_pose_sensor_link"/>
+    <limit effort="0" lower="0" upper="0" velocity="0"/>
+  </joint>
+  <!-- ICE SNAME GT SENSOR -->
+  <xacro:dummy_link name="${namespace}/sname_link"/>
+  <joint name="ice_sname_joint" type="revolute">
+    <!-- This is revolute and not static since gazebo would remove ned_link -->
+    <origin rpy="${pi} 0 0" xyz="0 0 0"/>
+    <parent link="${namespace}/base_link"/>
+    <child link="${namespace}/sname_link"/>
+    <limit effort="0" lower="0" upper="0" velocity="0"/>
+  </joint>
+  <!-- GPS0 NED GT SENSOR -->
+  <xacro:dummy_link name="${namespace}/gpsx0/sname_link"/>
+  <joint name="gps0_sname_joint" type="revolute">
+    <!-- This is revolute and not static since gazebo would remove ned_link -->
+    <origin rpy="${pi} 0 0" xyz="0 0 0"/>
+    <parent link="${namespace}/gpsx0"/>
+    <child link="${namespace}/gpsx0/sname_link"/>
+    <limit effort="0" lower="0" upper="0" velocity="0"/>
+  </joint>
+  <!-- SHIP NED GT SENSOR -->
+  <xacro:dummy_link name="${namespace}/hull/sname_link"/>
+  <joint name="ship_sname_joint" type="revolute">
+    <!-- This is revolute and not static since gazebo would remove ned_link -->
+    <origin rpy="${pi} 0 0" xyz="0 0 0"/>
+    <parent link="${namespace}/hull"/>
+    <child link="${namespace}/hull/sname_link"/>
+    <limit effort="0" lower="0" upper="0" velocity="0"/>
+  </joint>
+</robot>

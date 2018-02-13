@@ -1,0 +1,24 @@
+<?xml version='1.0'?>
+<robot>
+<gazebo>
+  	<plugin name="imu_plugin" filename="libhector_gazebo_ros_imu.so">
+	<robotNamespace>/</robotNamespace>
+	<updateRate>10.0</updateRate>
+	<bodyName>imu_sensor_body</bodyName>
+	<topicName>imu</topicName>
+	<accelDrift>0.00 0.00 0.00</accelDrift>
+	<accelGaussianNoise>0.00 0.00 0.00</accelGaussianNoise>
+	<rateDrift>0.00 0.00 0.00</rateDrift>
+	<rateGaussianNoise>0.00 0.00 0.00 </rateGaussianNoise>
+	<headingDrift>0.00</headingDrift>
+	<headingGaussianNoise>0.00</headingGaussianNoise>
+	</plugin>
+</gazebo>
+
+<gazebo reference="imu_sensor_body">
+  <turnGravityOff>true</turnGravityOff>
+  <self_collide>true</self_collide>
+  <kinematic>false</kinematic>      
+  <material>Gazebo/Yellow</material>
+</gazebo>
+</robot>

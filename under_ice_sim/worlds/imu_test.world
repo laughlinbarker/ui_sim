@@ -1,0 +1,104 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+	  <world name="world_1">
+    <scene>
+      <ambient>0.5 0.5 0.5 1.0</ambient>
+      <background>0.5 0.5 0.5 1.0</background>
+      <shadows>true</shadows>
+    </scene>
+    
+  <model name="test_imu">
+  	<pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+    <link name="imu">
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>10</mass>
+        <inertia>
+          <ixx>1.67</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1.67</iyy>
+          <iyz>0</iyz>
+          <izz>1.67</izz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>1 1 1</size>
+          </box>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.0</mu>
+              <mu2>1.0</mu2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <kp>10000000.0</kp>
+              <kd>1.0</kd>
+              <min_depth>0.001</min_depth>
+              <max_vel>0.1</max_vel>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+      <visual name="visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>1 1 1</size>
+          </box>
+        </geometry>
+	<material>
+          <script>
+            <name>Gazebo/Red</name>
+            <uri>__default__</uri>
+          </script>
+        </material>
+      </visual>
+      
+        <gravity>false</gravity>
+        <self_collide>true</self_collide>
+        <kinematic>false</kinematic>
+        
+    </link>
+    
+    	<plugin name="imu_plugin" filename="libhector_gazebo_ros_imu.so">
+		<robotNamespace>/</robotNamespace>
+		<updateRate>10.0</updateRate>
+		<bodyName>imu</bodyName>
+		<topicName>imu</topicName>
+		<accelDrift>0.00 0.00 0.00</accelDrift>
+		<accelGaussianNoise>0.00 0.00 0.00</accelGaussianNoise>
+		<rateDrift>0.00 0.00 0.00</rateDrift>
+		<rateGaussianNoise>0.00 0.00 0.00 </rateGaussianNoise>
+		<headingDrift>0.00</headingDrift>
+		<headingGaussianNoise>0.00</headingGaussianNoise>
+		</plugin>
+    
+    </model>
+    
+    
+      <light type="point" name="light_1">
+      <pose>0.0 0.0 10.0 0.0 0.0 0.0</pose>
+      <diffuse>0.5 0.5 0.5 0.5</diffuse>
+      <attenuation>
+        <range>1000.0</range>
+        <constant>0.01</constant>
+        <quadratic>0.0001</quadratic>
+      </attenuation>
+      <direction>0 0 -1</direction>
+      <spot>
+        <inner_angle>1.57</inner_angle>
+        <outer_angle>1.57</outer_angle>
+        <falloff>1.0</falloff>
+      </spot>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+  </world>
+</sdf>

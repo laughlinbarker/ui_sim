@@ -1,0 +1,211 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+	<model name="AUV">
+		<pose>2 2 2 0 0 0</pose>
+		
+		<link name="body">
+			<pose>0 0 0 3.1415926 0 0 </pose>
+			<visual name="visual">
+				<pose frame=''>0 0 0 0 0 0</pose>
+		      <geometry>
+              <box>
+                <size>3 0.8 1.8</size>
+              </box>
+          	  </geometry>
+         
+              <material>
+	      		<ambient>0.8 0.2 0 1</ambient>
+          		<diffuse>0.8 0.2 0 1</diffuse>
+          		<specular>0.8 0.2 0 1</specular>
+          		<emissive>0.8 0.2 0 1</emissive>
+        	  </material>
+        	  <transparency>0.7</transparency>
+			</visual>
+			
+			<collision name="collision_box">
+			<pose frame=''>0 0 0 0 0 0</pose>
+		      <geometry>
+              <box>
+                <size>3 0.8 1.8</size>
+              </box>
+          	  </geometry>
+			</collision>
+			
+			 <gravity>false</gravity>
+        <self_collide>true</self_collide>
+        <kinematic>false</kinematic>
+		</link> 
+		
+		
+		<link name="dvl_body">
+        <pose>1.4 0.0 1 0.0 0.0 0.0</pose>
+        <visual name="visual_box">
+        	
+          <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+          
+          <geometry>
+            <box>
+              <size>0.2 0.2 0.2</size>
+            </box>
+          </geometry>
+          
+          <cast_shadows>true</cast_shadows>
+          <laser_retro>100.0</laser_retro>
+          
+          <material>
+	        <ambient>.8 0 0 1</ambient>
+            <diffuse>.8 0 0 1</diffuse>
+            <specular>.8 0 0 1</specular>
+            <emissive>.8 0 0 1</emissive>
+          </material>
+          
+          <transparency>0.7</transparency>
+        
+        </visual>
+
+        <sensor type="ray" name="sonar">
+          <pose>0.0 0 0 0 -1.570796327 0</pose>
+          <ray>
+            <scan>
+              <horizontal>
+                <samples>1</samples>
+                <resolution>1.0</resolution>
+                <min_angle>0</min_angle>
+                <max_angle>0</max_angle>
+              </horizontal>
+              <vertical>
+                <samples>1</samples>
+                <resolution>1</resolution>
+                <min_angle>0</min_angle>
+                <max_angle>0</max_angle>
+              </vertical>
+            </scan>
+            <range>
+              <min>1</min>
+              <max>200</max>
+              <resolution>0.01</resolution>
+            </range>
+          </ray>
+          
+          <plugin filename="libdvl_plugin.so" name="dvl_plugin">
+            <sensorStdDev>0.004</sensorStdDev>
+            <alwaysOn>true</alwaysOn>
+            <topicName>dvl</topicName>
+            <surfaceModelName>ice</surfaceModelName>
+            <updateRate>1</updateRate>
+          </plugin>
+          
+          <visualize>true</visualize>
+        </sensor>
+        
+        <gravity>false</gravity>
+        <self_collide>true</self_collide>
+        <kinematic>false</kinematic>
+        
+      	</link>	
+
+        <joint name="auv_dvl" type="fixed">
+    	<pose>1.4 0.0 -1 0.0 0.0 0.0</pose>
+    	<parent>body</parent>
+    	<child>dvl_body</child>
+    	<frame name="auv_dvl" />
+    	</joint>
+    	
+    	
+    	<link name="beacon">
+        <pose>-1.4 0 1 0.0 0.0 0.0</pose>
+        <visual name="visual_box">
+          <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.2</length>
+            </cylinder>
+          </geometry>
+          <cast_shadows>true</cast_shadows>
+          <laser_retro>100.0</laser_retro>
+          <material>
+	        <ambient>.8 0 0 1</ambient>
+            <diffuse>.8 0 0 1</diffuse>
+            <specular>.8 0 0 1</specular>
+            <emissive>.8 0 0 1</emissive>
+          </material>
+        </visual>
+
+    	<collision name="collision_box">
+          <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.15</length>
+            </cylinder>
+          </geometry>
+        </collision> 
+        <gravity>false</gravity>
+        <self_collide>true</self_collide>
+        <kinematic>false</kinematic>
+      </link>
+      
+    <joint name="body_beacon" type="fixed">
+    	<pose>0 0 0 0.0 0.0 0.0</pose>
+    	<parent>body</parent>
+    	<child>beacon</child>
+    	<frame name="auv_imu" />
+    </joint>
+      
+      <link name="imu_body">
+      	<pose>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>10</mass>
+        <inertia>
+          <ixx>1.67</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1.67</iyy>
+          <iyz>0</iyz>
+          <izz>1.67</izz>
+        </inertia>
+      </inertial>
+      <visual name="visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.2 0.2 0.2</size>
+          </box>
+        </geometry>
+	<material>
+          <script>
+            <name>Gazebo/Yellow</name>
+            <uri>__default__</uri>
+          </script>
+        </material>
+      </visual>
+      
+        <gravity>false</gravity>
+        <self_collide>true</self_collide>
+        <kinematic>false</kinematic>
+        
+    </link>
+    
+    <joint name="body_imu" type="fixed">
+    	<pose>0 0 0 0.0 0.0 0.0</pose>
+    	<parent>body</parent>
+    	<child>imu_body</child>
+    	<frame name="auv_imu" />
+    </joint>
+    
+    	<plugin name="imu_plugin" filename="libhector_gazebo_ros_imu.so">
+		<robotNamespace>/</robotNamespace>
+		<updateRate>10.0</updateRate>
+		<bodyName>imu_body</bodyName>
+		<topicName>imu</topicName>
+		<accelDrift>0.00 0.00 0.00</accelDrift>
+		<accelGaussianNoise>0.00 0.00 0.00</accelGaussianNoise>
+		<rateDrift>0.00 0.00 0.00</rateDrift>
+		<rateGaussianNoise>0.00 0.00 0.00 </rateGaussianNoise>
+		<headingDrift>0.00</headingDrift>
+		<headingGaussianNoise>0.00</headingGaussianNoise>
+		</plugin>
+	</model>
+</sdf>

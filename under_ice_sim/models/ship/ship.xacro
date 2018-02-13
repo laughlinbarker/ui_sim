@@ -1,0 +1,189 @@
+<?xml version='1.0'?>
+<robot name="ice" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+	<xacro:property name="length" value="2100"	/> <!--X-->
+	<xacro:property name="width" value="2100" /> <!--Y-->
+	<xacro:property name="height" value="2"	/> <!--Z-->
+	
+	<xacro:property name="beam" value="15" />
+	<xacro:property name="ship_length" value="70" />
+	<xacro:property name="ship_height" value="15" />	
+		
+	<xacro:property name="bridge_x" value="15" />
+	<xacro:property name="bridge_y" value="10" />
+	<xacro:property name="bridge_z" value="10" />
+	
+	<xacro:property name="usbl_r" value="0.2" />
+	<xacro:property name="usbl_l" value="0.2" />
+				
+	<xacro:property name="gps_side" value="0.2" />
+	<xacro:property name="imu_side" value="0.2" />		
+    
+	<xacro:include filename="$(find under_ice_sim_gazebo)/models/ice/ship.gazebo" />
+			
+
+		
+  <!--================SHIP=================-->
+<link name="hull">
+  	<collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+			<box size="${beam} ${ship_length} ${ship_height}"/>
+      </geometry>
+    </collision>
+    
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+	<box size="${beam} ${ship_length} ${ship_height}"/>
+      </geometry>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.0001"/>
+      <inertia
+	  ixx="0.00001" ixy="0.0" ixz="0.0"
+	  iyy="0.00001" iyz="0.0"
+	  izz="0.00001"/>
+    </inertial>
+ </link>
+  
+ <joint name="ice_hull" type="fixed">
+  	<axis>0 0 1</axis>
+  	<origin xyz="${length/2+beam/2} 0 0" rpy="0 0 0" />
+  	<parent link="sheet" />
+  	<child link="hull" />
+ </joint>
+ 
+ <link name="bridge">
+  	<collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+			<box size="${bridge_x} ${bridge_y} ${bridge_z}"/>
+      </geometry>
+    </collision>
+    
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+	<box size="${bridge_x} ${bridge_y} ${bridge_z}"/>
+      </geometry>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.0001"/>
+      <inertia
+	  ixx="0.00001" ixy="0.0" ixz="0.0"
+	  iyy="0.00001" iyz="0.0"
+	  izz="0.00001"/>
+    </inertial>
+ </link>
+  
+ <joint name="hull_bridge" type="fixed">
+  	<axis>0 0 1</axis>
+  	<origin xyz="0 ${ship_length/3} ${ship_height/2 + bridge_z/2}" rpy="0 0 0" />
+  	<parent link="hull" />
+  	<child link="bridge" />
+ </joint>  
+  
+ <link name="ship_gps">
+  	<collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+			<box size="${gps_side} ${gps_side} ${gps_side}"/>
+      </geometry>
+    </collision>
+    
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+	<box size="${gps_side} ${gps_side} ${gps_side}"/>
+      </geometry>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.0001"/>
+      <inertia
+	  ixx="0.00001" ixy="0.0" ixz="0.0"
+	  iyy="0.00001" iyz="0.0"
+	  izz="0.00001"/>
+    </inertial>
+</link>
+  
+<joint name="hull_gps" type="revolute">
+  	<axis>0 0 1</axis>
+  	<origin xyz="0 2.5 19" rpy="0 0 0" />
+	<limit effort="0.0001" lower="0.0" upper="0.000000000001" velocity="0.00001"/>
+  	<parent link="hull" />
+  	<child link="ship_gps" />
+</joint>
+
+ <link name="usbl">
+  	<collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+			<cylinder length="${usbl_r}" radius="${usbl_l}" />
+      </geometry>
+    </collision>
+    
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+			<cylinder length="${usbl_r}" radius="${usbl_l}" />
+      </geometry>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.0001"/>
+      <inertia
+	  ixx="0.00001" ixy="0.0" ixz="0.0"
+	  iyy="0.00001" iyz="0.0"
+	  izz="0.00001"/>
+    </inertial>
+</link>
+  
+<joint name="hull_usbl" type="revolute">
+  	<axis>0 0 1</axis>
+  	<origin xyz="0.6 5.75 -5" rpy="0 0 0" />
+  	<limit effort="0.0001" lower="0.0" upper="0.000000000001" velocity="0.00001"/>
+  	<parent link="hull" />
+  	<child link="usbl" />
+</joint>
+
+ <link name="imu">
+  	<!--<collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+			<box size="${imu_side} ${imu_side} ${imu_side}" />
+      </geometry>
+    </collision> -->
+  	
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+			<box size="${imu_side} ${imu_side} ${imu_side}" />
+      </geometry>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.0001"/>
+      <inertia
+	  ixx="0.00001" ixy="0.0" ixz="0.0"
+	  iyy="0.00001" iyz="0.0"
+	  izz="0.00001"/>
+    </inertial>
+</link>
+  
+<joint name="hull_imu" type="revolute">
+  	<axis>0 0 1</axis>
+  	<origin xyz="0 0 0" rpy="0 0 0" />
+  	<limit effort="0.0001" lower="0.0" upper="0.000000000001" velocity="0.00001"/>
+  	<parent link="hull" />
+  	<child link="imu" />
+</joint>
+  
+</robot>
